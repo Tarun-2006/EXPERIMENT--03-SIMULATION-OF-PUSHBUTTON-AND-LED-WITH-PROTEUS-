@@ -74,60 +74,48 @@ We are now at the last part of step by step guide on how to simulate STM32 proje
 
 ```
 #include "main.h"
-#include <stdbool.h>
-	void push_button();
-	bool button_status;
-
+#include<stdbool.h>
+void Push_button();
+bool button_status;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-
 int main(void)
 {
- 
+  
   HAL_Init();
-
-  
   SystemClock_Config();
-
- 
-  
   MX_GPIO_Init();
-  
+
   while (1)
   {
-    
-	  push_button();
-  }
-}
+	  Push_button();
 
-void push_button()
+  }
+ 
+}
+void Push_button()
 {
 	button_status=HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_13);
-	if (button_status==0)
+	if(button_status==0)
 	{
-		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+
 	}
-else
-   {
-	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_RESET);
-   }
+	else
+	{
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+	}
 }
-/**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Configure the main internal regulator output voltage
-  */
+ 
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
-  /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
+  
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
@@ -136,8 +124,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB buses clocks
-  */
+  
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
@@ -151,29 +138,20 @@ void SystemClock_Config(void)
   }
 }
 
-/**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-  /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
-  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PA5 */
   GPIO_InitStruct.Pin = GPIO_PIN_5;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -182,50 +160,43 @@ static void MX_GPIO_Init(void)
 
 }
 
-/* USER CODE BEGIN 4 */
 
-/* USER CODE END 4 */
-
-/**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
 void Error_Handler(void)
 {
-  /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
+  
   __disable_irq();
   while (1)
   {
   }
-  /* USER CODE END Error_Handler_Debug */
+  
 }
 
 #ifdef  USE_FULL_ASSERT
 
 void assert_failed(uint8_t *file, uint32_t line)
 {
-
-
+  
 }
-#endif
+#endif 
 ```
 
+
 ## Output screen shots of proteus  :
+## switch off:
+![Screenshot 2025-03-22 105851](https://github.com/user-attachments/assets/a6d18dd5-c469-4fb4-bde9-7fb8994b9854)
 
-ON Position
-![Screenshot 2025-03-18 145517](https://github.com/user-attachments/assets/d49991a0-d0da-4122-aefa-9ef94066b046)
+## switch on:
+![Screenshot 2025-03-22 105833](https://github.com/user-attachments/assets/84fa3e1e-aa3c-4a21-974e-5f76ecb102e2)
 
-OFF Position
- ![Screenshot 2025-03-18 145456](https://github.com/user-attachments/assets/069963f1-2b05-4887-96b9-dc186c39be68)
+
 
 
 ## Proteus layout(Add pdf screen shot of circuit here)
+ 
+ ![image](https://github.com/user-attachments/assets/22f0a50b-2dee-4131-b618-60be99064bd7)
 
-![exp2pmc](https://github.com/user-attachments/assets/d9b431c1-df0a-46e4-b0f0-0ebc5d469715)
-
-
+ 
+ 
 ## Result :
 Interfacing a digital output and digital input  with ARM microcontroller are simulated in proteus and the results are verified.
-
 
